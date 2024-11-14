@@ -2,44 +2,60 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // This for getting the instace of Player Singleton
     public static Player Instance { get; private set; }
-    private PlayerMovement playerMovement;
-    private Animator animator;
 
-    private void Awake()
+    // Getting the PlayerMovement methods
+    PlayerMovement playerMovement;
+    // Animator
+    Animator animator;
+
+
+    // Key for Singleton
+    void Awake()
     {
-        if (Instance == null)
+        if (Instance != null && Instance != this)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Destroy(this);
+            return;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    // Getting Component
+    void Start()
     {
+        // Get PlayerMovement components
         playerMovement = GetComponent<PlayerMovement>();
-        animator = GameObject.Find("Engine/EngineEffect")?.GetComponent<Animator>();
+
+        // Get Animator components
+        animator = GameObject.Find("EngineEffects").GetComponent<Animator>();
     }
 
-    private void FixedUpdate()
-    {
-        HandleMovement();
-    }
-
-    private void HandleMovement()
+    // Using FixedUpdate to Move because of physics
+    void FixedUpdate()
     {
         playerMovement.Move();
-        UpdateAnimator();
     }
 
-    private void UpdateAnimator()
+    // LateUpdate for animation related
+    void LateUpdate()
     {
-        bool isMoving = playerMovement.IsMoving();
-        animator.SetBool("IsMoving", isMoving);
+        playerMovement.MoveBound();
+        animator.SetBool("IsMoving", playerMovement.IsMoving());
     }
 
+    private WeaponPickup currentWeaponPickup;
+
+    public void SwitchWeapon(Weapon newWeapon, WeaponPickup newWeaponPickup)
+    {
+        if (currentWeaponPickup != null)
+        {
+            currentWeaponPickup.PickupHandler(true);  // Make the previous weapon pickup visible again
+        }
+        currentWeaponPickup = newWeaponPickup;
+    }
 }
