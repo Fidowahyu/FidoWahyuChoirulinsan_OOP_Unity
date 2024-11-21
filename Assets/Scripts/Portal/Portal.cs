@@ -14,9 +14,7 @@ public class Portal : MonoBehaviour
 
     void Update()
     {
-        if (Vector2.Distance(transform.position, newPosition) < 0.5f)
-            ChangePosition();
-
+        WeaponPickup weaponPickup = Player.Instance.GetComponentInChildren<WeaponPickup>();
 
         if (GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Weapon>() != null)
         {
@@ -28,6 +26,14 @@ public class Portal : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
+        }
+
+        transform.Rotate(0, 0, rotateSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, newPosition, speed * Time.deltaTime);
+
+        if (Vector2.Distance(transform.position, newPosition) < 0.5f)
+        {
+            ChangePosition();
         }
     }
 
