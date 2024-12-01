@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Stylesheet.uss?fileID=7433441132597879392&amp;guid=780bc66976de7374fa36b78fb0c8da35&amp;type=3#Stylesheet" />
+    <ui:VisualElement style="flex-grow: 1; justify-content: flex-start;">
+        <ui:Label tabindex="-1" text="WarPlane#100" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Label" class="text" style="justify-content: flex-start; align-self: center; align-items: auto;" />
+    </ui:VisualElement>
+</ui:UXML>

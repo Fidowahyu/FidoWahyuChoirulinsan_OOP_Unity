@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour
 
     public IEnumerator LoadSceneAsync(string sceneName)
     {
+        animator.enabled = true;
+        animator.ResetTrigger("StartTransition");
         yield return new WaitForSeconds(1);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
@@ -21,7 +23,10 @@ public class LevelManager : MonoBehaviour
             yield return null;
         }
 
+    if (asyncLoad.isDone)
+    {
         animator.SetTrigger("EndTransition");
+    } 
     }
 
     public void LoadScene(string sceneName)
